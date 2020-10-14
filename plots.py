@@ -19,5 +19,5 @@ def plotSpectrum(arr, xaxis="wavelength"):
         return 0
     
     plt.plot(x, arr)
-    plt.ylabel("Reflectanse")
+    plt.ylabel("Reflectance")
     plt.xlabel(xaxis)

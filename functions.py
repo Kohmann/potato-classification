@@ -48,7 +48,7 @@ def clip(img, mi, ma):
 
     return 0
 
-def meanSpectrum(cube):
+def meanSpectrum(cube):  # works only for subregions
     bands = cube.shape[2]
     avgSpec = np.zeros(bands)    
     for i in range(bands):
@@ -65,25 +65,14 @@ def getImage(time):
              "../Strawberry/Normalised/STR_B1_24h_VNIR_1800_SN00841_HSNR2_9998us_2020-08-03T181621_raw_rad_nn.hdr",
              "../Strawberry/Normalised/STR_B1_48h_VNIR_1800_SN00841_HSNR2_9998us_2020-08-04T152605_raw_rad_nn.hdr"
             ]
-    if time == 'before_hit':
-        return  sp.open_image(files[0])
-    elif time == '0m':
-        return  sp.open_image(files[0])
-    elif time == '30m':
-        return  sp.open_image(files[0])
-    elif time == '1h':
-        return  sp.open_image(files[0])
-    elif time == '3h':
-        return  sp.open_image(files[0])
-    elif time == '12h':
-        return  sp.open_image(files[0])
-    elif time == '24h':
-        return  sp.open_image(files[0])
-    elif time == '48h':
-        return  sp.open_image(files[0])
-    else:
-        print('Format must be [before_hit, 0m, 30m, 1h, 3h, 12h, 24h, 48h]')
+    time = "_" + time # string must have _ in front to make it unique
+    for file in files:
+        if time in file:
+            return file
     
+    print('Format must be [before_hit, 0m, 30m, 1h, 3h, 12h, 24h, 48h]')
+    return 0
+
 
 def getRegion(img, x=0, y=0, kernel=1):
     if (not x or not y):

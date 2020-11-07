@@ -47,3 +47,47 @@ def clip(img, mi, ma):
         img[:,:,i][img[:,:,i] < mi] = 0
 
     return 0
+
+def meanSpectrum(cube):
+    bands = cube.shape[2]
+    avgSpec = np.zeros(bands)    
+    for i in range(bands):
+        avgSpec[i] = cube[:,:,i].mean()
+    return avgSpec
+
+def getImage(time):
+    files = [ "../Strawberry/Normalised/STR_B1_before-hit_VNIR_1800_SN00841_HSNR2_11998us_2020-08-02T184054_raw_rad_nn.hdr",
+             "../Strawberry/Normalised/STR_B1_0mn_VNIR_1800_SN00841_HSNR2_11998us_2020-08-02T185621_raw_rad_nn.hdr",
+             "../Strawberry/Normalised/STR_B1_30min_VNIR_1800_SN00841_HSNR2_11998us_2020-08-02T193019_raw_rad_nn.hdr",
+             "../Strawberry/Normalised/STR_B1_1hr_VNIR_1800_SN00841_HSNR2_11998us_2020-08-02T202126_raw_rad_nn.hdr",
+             "../Strawberry/Normalised/STR_B1_3hr_VNIR_1800_SN00841_HSNR2_11998us_2020-08-02T214153_raw_rad_nn.hdr",
+             "../Strawberry/Normalised/STR_B1_12h_VNIR_1800_SN00841_HSNR2_9998us_2020-08-03T112003_raw_rad_nn.hdr",
+             "../Strawberry/Normalised/STR_B1_24h_VNIR_1800_SN00841_HSNR2_9998us_2020-08-03T181621_raw_rad_nn.hdr",
+             "../Strawberry/Normalised/STR_B1_48h_VNIR_1800_SN00841_HSNR2_9998us_2020-08-04T152605_raw_rad_nn.hdr"
+            ]
+    if time == 'before_hit':
+        return  sp.open_image(files[0])
+    elif time == '0m':
+        return  sp.open_image(files[0])
+    elif time == '30m':
+        return  sp.open_image(files[0])
+    elif time == '1h':
+        return  sp.open_image(files[0])
+    elif time == '3h':
+        return  sp.open_image(files[0])
+    elif time == '12h':
+        return  sp.open_image(files[0])
+    elif time == '24h':
+        return  sp.open_image(files[0])
+    elif time == '48h':
+        return  sp.open_image(files[0])
+    else:
+        print('Format must be [before_hit, 0m, 30m, 1h, 3h, 12h, 24h, 48h]')
+    
+
+def getRegion(img, x=0, y=0, kernel=1):
+    if (not x or not y):
+        print("Format is [image, x-coord, y-coord, kernel]")
+    elif (x and y):
+        return img.read_subregion((y - kernel//2, y + kernel//2 + 1),
+                              (x - kernel//2, x + kernel//2 + 1))

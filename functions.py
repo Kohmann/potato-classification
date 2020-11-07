@@ -7,7 +7,7 @@ from spectral import principal_components
 import matplotlib.pyplot as plt
 
 
-def plotSpectrum(arr, xaxis="wavelength", linelabel="line"):
+def plotSpectrum(arr, xaxis="wavelength", linelabel=0 ):
 
     if xaxis == "wavelength":
         x = np.linspace(400,1000,len(arr))
@@ -18,10 +18,14 @@ def plotSpectrum(arr, xaxis="wavelength", linelabel="line"):
         print("xaxis wasnt wavelength or band")
         return 0
     
-    plt.plot(x, arr, label=linelabel)
+    if linelabel != 0:
+        plt.plot(x, arr, label=linelabel)
+        plt.legend()
+    else: 
+        plt.plot(x, arr)
     plt.ylabel("Reflectance")
     plt.xlabel(xaxis)
-    plt.legend()
+    
 
 
     

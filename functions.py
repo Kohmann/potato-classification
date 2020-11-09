@@ -74,9 +74,8 @@ def getImage(time):
     return 0
 
 
-def getRegion(img, x=0, y=0, kernel=1):
+def getRegion(img, x=0, y=0, kernel=0):
     if (not x or not y):
         print("Format is [image, x-coord, y-coord, kernel]")
     elif (x and y):
-        return img.read_subregion((y - kernel//2, y + kernel//2 + 1),
-                              (x - kernel//2, x + kernel//2 + 1))
+        return img[y - kernel//2 : y + kernel//2 + 1, x - kernel//2 : x + kernel//2 + 1]

@@ -83,7 +83,7 @@ def getRegion(img, x=0, y=0, kernel=0):
 
     
 def removeSeeds(img):
-    
+
     if len(img.shape) == 3:
         img8bit = (img[:,:,180]*255).astype('uint8')
     elif len(img.shape) == 2:
@@ -92,14 +92,14 @@ def removeSeeds(img):
         raise ValueError('Image is not 2d or 3d')
     
     thresh = cv2.threshold(img8bit, np.mean(img8bit),1, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1] # inverse otsu threshold
-                                                                                                    #  seeds become false = 0
+
     return img[np.where(thresh==1)] # returns pixel spectrums not on a seed
 
 
 def strawberryMask(img):
     imgBand = img[:,:,180]
     img8bit = (imgBand*255).astype('uint8')
-    tresh = cv2.threshold(img8bit,10,255, cv2.THRESH_BINARY)[1]
+    tresh = cv2.threshold(img8bit,10,1, cv2.THRESH_BINARY)[1]
     closing  = cv2.morphologyEx(tresh, cv2.MORPH_CLOSE, np.ones((7,7),np.uint8), iterations=1)
     eroded = cv2.erode(closing, np.ones((7,7),np.uint8), iterations = 10)
     return eroded

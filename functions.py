@@ -85,7 +85,7 @@ def getRegion(img, x=0, y=0, kernel=0):
 def removeSeeds(img):
 
     if len(img.shape) == 3:
-        img8bit = (img[:,:,180]*255).astype('uint8')
+        img8bit = (img[:,:,img.shape[2]-1]*255).astype('uint8')
     elif len(img.shape) == 2:
         img8bit = (img*255).astype('uint8')
     else:
@@ -98,7 +98,7 @@ def removeSeeds(img):
 
 
 def strawberryMask(img):
-    imgBand = img[:,:,180]
+    imgBand = img[:,:,img.shape[2]-1]
     img8bit = (imgBand*255).astype('uint8')
     tresh = cv2.threshold(img8bit,10,1, cv2.THRESH_BINARY)[1]
     closing  = cv2.morphologyEx(tresh, cv2.MORPH_CLOSE, np.ones((7,7),np.uint8), iterations=1)

@@ -91,9 +91,10 @@ def removeSeeds(img):
     else:
         raise ValueError('Image is not 2d or 3d')
     
-    thresh = cv2.threshold(img8bit, np.mean(img8bit),1, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1] # inverse otsu threshold
+    thresh = cv2.threshold(img8bit, np.mean(img8bit),1, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1] # inverse otsu threshold to remove seeds
+    erode = cv2.erode(thresh,np.ones((5,5),np.uint8)) # Removes the pixels that were next to the seeds
 
-    return img[np.where(thresh==1)] # returns pixel spectrums not on a seed
+    return img[np.where(erode==1)]# returns pixel spectrums that are not seeds
 
 
 def strawberryMask(img):

@@ -98,9 +98,9 @@ def removeSeeds(img):
 
 
 def strawberryMask(img):
-    imgBand = img[:,:,img.shape[2]-1]
-    img8bit = (imgBand*255).astype('uint8')
-    tresh = cv2.threshold(img8bit,10,1, cv2.THRESH_BINARY)[1]
+    imgBand = img[:,:,img.shape[2]-1] # Image based on the last band
+    img8bit = (imgBand*255).astype('uint8')  # Converting to 8bit
+    tresh = cv2.threshold(img8bit,10,1, cv2.THRESH_BINARY)[1]  # 
     closing  = cv2.morphologyEx(tresh, cv2.MORPH_CLOSE, np.ones((7,7),np.uint8), iterations=1)
     eroded = cv2.erode(closing, np.ones((7,7),np.uint8), iterations = 10)
     return eroded

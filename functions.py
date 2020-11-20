@@ -6,6 +6,7 @@ import numpy as np
 from spectral import principal_components
 import matplotlib.pyplot as plt
 import cv2
+import spectral as sp
 
 
 def plotSpectrum(arr, xaxis="wavelength", linelabel=0 ):
@@ -85,12 +86,12 @@ def getRegion(img, x=0, y=0, kernel=0):
 def removeSeeds(img):
 
     if len(img.shape) == 3:
-        img8bit = (img[:,:,img.shape[2]-1]*255).astype('uint8')
+        img8bit = (img[:,:,img.shape[-1]-1]*255).astype('uint8')
     elif len(img.shape) == 2:
         img8bit = (img*255).astype('uint8')
     else:
         raise ValueError('Image is not 2d or 3d')
-    
+        
     thresh = cv2.threshold(img8bit,0,1, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1] # inverse otsu threshold to remove seeds
     erode = cv2.erode(thresh,np.ones((5,5),np.uint8)) # Removes the pixels that were next to the seeds
 
@@ -98,7 +99,7 @@ def removeSeeds(img):
 
 
 def strawberryMask(img):
-    imgBand = img[:,:,img.shape[2]-1] # Image based on the last band
+    imgBand = img[:,:,img.shape[-1]-1] # Image based on the last band
     img8bit = (imgBand*255).astype('uint8')  # Converting to 8bit
     tresh = cv2.threshold(img8bit,10,1, cv2.THRESH_BINARY)[1]  # 
     closing  = cv2.morphologyEx(tresh, cv2.MORPH_CLOSE, np.ones((7,7),np.uint8), iterations=1)
